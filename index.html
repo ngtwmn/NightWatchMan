@@ -3,20 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Website</title>
+    <title>NightWatchMan - Cricket Enthusiast Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <img src="images/logo/logo.png" alt="Website Logo" class="logo">
-        <h1>Welcome to Minimal Website</h1>
+    <header class="header">
+        <div class="container">
+            <div class="logo-section">
+                <img src="images/logo/logo.png" alt="NightWatchMan Logo" class="logo">
+                <h1 class="site-title">NightWatchMan</h1>
+            </div>
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#articles" class="nav-link">Articles</a></li>
+                    <li><a href="#podcasts" class="nav-link">Podcasts</a></li>
+                    <li><a href="#rankings" class="nav-link">Rankings</a></li>
+                    <li><a href="#news" class="nav-link">News</a></li>
+                    <li><a href="#fans-voice" class="nav-link">Fans' Voice</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    
+
     <main>
-        <p>This is a clean, minimal web page structure.</p>
-        <img src="images/sample-image.jpg" alt="Sample Image" class="sample-image">
+        <!-- Hero Banner Section -->
+        <section id="home" class="hero-banner">
+            <div class="container">
+                <div class="hero-content">
+                    <h2 class="hero-title">Welcome to the Ultimate Cricket Experience</h2>
+                    <p class="hero-tagline">Where passion meets the pitch - Your gateway to cricket insights, analysis, and community</p>
+                    <img src="images/sample-image.jpg" alt="Cricket Stadium" class="hero-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Articles Section -->
+        <section id="articles" class="articles-section">
+            <div class="container">
+                <h2 class="section-title">Latest Articles</h2>
+                <div class="articles-grid">
+                    <article class="article-card">
+                        <h3>The Art of Test Cricket: Why the Longest Format Still Matters</h3>
+                        <p>Exploring the strategic depth and mental fortitude required in Test cricket...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </article>
+                    <article class="article-card">
+                        <h3>T20 Revolution: How the Format Changed Cricket Forever</h3>
+                        <p>Analyzing the impact of T20 cricket on player strategies and fan engagement...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </article>
+                    <article class="article-card">
+                        <h3>The Science of Swing Bowling</h3>
+                        <p>Understanding the physics and technique behind one of cricket's most beautiful arts...</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Podcasts Section -->
+        <section id="podcasts" class="podcasts-section">
+            <div class="container">
+                <h2 class="section-title">Cricket Podcasts</h2>
+                <div class="podcasts-list">
+                    <div class="podcast-item">
+                        <h3>The Night Watch - Episode 42</h3>
+                        <p>Deep dive into the Ashes series with expert analysis</p>
+                        <button class="play-btn">▶ Play</button>
+                    </div>
+                    <div class="podcast-item">
+                        <h3>Beyond the Boundary - Episode 38</h3>
+                        <p>Women's cricket and the rise of new talent</p>
+                        <button class="play-btn">▶ Play</button>
+                    </div>
+                    <div class="podcast-item">
+                        <h3>Cricket Tactics - Episode 25</h3>
+                        <p>Field placements and their psychological impact</p>
+                        <button class="play-btn">▶ Play</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rankings Section -->
+        <section id="rankings" class="rankings-section">
+            <div class="container">
+                <h2 class="section-title">Current Rankings</h2>
+                <div class="rankings-tabs">
+                    <button class="tab-btn active">Test</button>
+                    <button class="tab-btn">ODI</button>
+                    <button class="tab-btn">T20I</button>
+                </div>
+                <div class="rankings-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team</th>
+                                <th>Points</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Australia</td>
+                                <td>3825</td>
+                                <td>128</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>India</td>
+                                <td>3654</td>
+                                <td>122</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>England</td>
+                                <td>3421</td>
+                                <td>114</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Ticker Section -->
+        <section id="news" class="news-section">
+            <div class="container">
+                <h2 class="section-title">Cricket News Ticker</h2>
+                <div class="news-ticker">
+                    <div class="ticker-content">
+                        <span>🏏 Breaking: Smith scores century in county cricket...</span>
+                        <span>🏆 World Cup 2027 venues announced...</span>
+                        <span>📊 New ICC regulations for T20 leagues...</span>
+                        <span>🌟 Young talent emerges in domestic circuit...</span>
+                    </div>
+                </div>
+                <div class="news-grid">
+                    <article class="news-item">
+                        <h3>ICC Announces New Test Championship Format</h3>
+                        <p>The governing body reveals exciting changes to the World Test Championship...</p>
+                        <time datetime="2025-08-09">August 9, 2025</time>
+                    </article>
+                    <article class="news-item">
+                        <h3>Record Attendance at Women's T20 Final</h3>
+                        <p>Historic crowd numbers highlight the growing popularity of women's cricket...</p>
+                        <time datetime="2025-08-08">August 8, 2025</time>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- External Links Section -->
+        <section class="external-links">
+            <div class="container">
+                <h2 class="section-title">Cricket Resources</h2>
+                <div class="links-grid">
+                    <a href="https://www.icc-cricket.com" target="_blank" class="external-link">
+                        <h3>ICC Official</h3>
+                        <p>International Cricket Council</p>
+                    </a>
+                    <a href="https://www.espncricinfo.com" target="_blank" class="external-link">
+                        <h3>ESPNCricinfo</h3>
+                        <p>Cricket news, scores & statistics</p>
+                    </a>
+                    <a href="https://www.cricbuzz.com" target="_blank" class="external-link">
+                        <h3>Cricbuzz</h3>
+                        <p>Live cricket scores & news</p>
+                    </a>
+                    <a href="https://www.bcci.tv" target="_blank" class="external-link">
+                        <h3>BCCI</h3>
+                        <p>Board of Control for Cricket in India</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fans' Voice Section -->
+        <section id="fans-voice" class="fans-voice-section">
+            <div class="container">
+                <h2 class="section-title">Fans' Voice</h2>
+                <div class="fan-posts">
+                    <div class="fan-post">
+                        <h3>"The Spirit of Cricket Lives On"</h3>
+                        <p>Witnessing sportsmanship in the recent series reminded me why I fell in love with cricket...</p>
+                        <footer>- CricketFan2025</footer>
+                    </div>
+                    <div class="fan-post">
+                        <h3>"Why County Cricket Matters"</h3>
+                        <p>The grassroots level is where true cricket passion is nurtured. Here's my take...</p>
+                        <footer>- LocalCricketLover</footer>
+                    </div>
+                    <div class="fan-post">
+                        <h3>"Technology vs Tradition"</h3>
+                        <p>How DRS and other technologies are balancing the game while preserving its essence...</p>
+                        <footer>- TechCricket</footer>
+                    </div>
+                </div>
+                <div class="contribute-section">
+                    <h3>Share Your Voice</h3>
+                    <p>Have a cricket story or opinion? We'd love to hear from you!</p>
+                    <button class="contribute-btn">Submit Your Story</button>
+                </div>
+            </div>
+        </section>
     </main>
-    
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Connect with NightWatchMan</h3>
+                    <p>Have questions, suggestions, or want to collaborate? Reach out to us!</p>
+                    <ul class="contact-methods">
+                        <li>📧 Email: contact@nightwatchman.cricket</li>
+                        <li>🐦 Twitter: @NightWatchManHQ</li>
+                        <li>📸 Instagram: @nightwatchman_cricket</li>
+                        <li>🎯 Threads: @nightwatchman</li>
+                    </ul>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NightWatchMan</h3>
+                    <p>Your premier destination for cricket insights, analysis, and community.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#articles">Articles</a></li>
+                        <li><a href="#podcasts">Podcasts</a></li>
+                        <li><a href="#rankings">Rankings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <ul>
+                        <li><a href="#fans-voice">Fans' Voice</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="Instagram">📸</a>
+                        <a href="#" aria-label="YouTube">📹</a>
+                        <a href="#" aria-label="Facebook">📘</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NightWatchMan. All rights reserved. Made with ❤️ for cricket lovers worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
