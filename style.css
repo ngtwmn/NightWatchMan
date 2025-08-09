@@ -1,42 +1,347 @@
+/* NightWatchMan Cricket Website - Color Scheme: 70% Dark Blue, 25% Gold, 5% Cricket Green/White */
+
+:root {
+  /* Primary Colors - Dark Blue (70%) */
+  --primary-dark-blue: #1a237e;
+  --primary-blue: #283593;
+  --light-blue: #3949ab;
+  
+  /* Accent Colors - Gold (25%) */
+  --gold: #ffd700;
+  --light-gold: #ffecb3;
+  --dark-gold: #b8860b;
+  
+  /* Cricket Colors - Green/White (5%) */
+  --cricket-green: #2e7d32;
+  --light-green: #66bb6a;
+  --cricket-white: #fafafa;
+}
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #fafbfc;
-  color: #222;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: var(--primary-dark-blue);
+  color: var(--cricket-white);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  line-height: 1.6;
 }
+
+/* Header - Dark Blue Background */
 header {
-  background: #fff;
-  box-shadow: 0 1px 6px #eee;
+  background: var(--primary-blue);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
+  border-bottom: 3px solid var(--gold);
 }
-.logo {
+
+header img {
   height: 48px;
   margin-right: 1rem;
 }
+
+header h1 {
+  color: var(--gold);
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Navigation - Gold Accents */
+header nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+header nav a {
+  color: var(--cricket-white);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+header nav a:hover {
+  color: var(--gold);
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+/* Main Content Area - Dark Blue Background */
 main {
   flex: 1;
-  max-width: 700px;
+  max-width: 1200px;
   margin: 2rem auto;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 3px 16px #e0e0e0;
+  background: var(--light-blue);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   padding: 2rem;
+  color: var(--cricket-white);
+}
+
+/* Welcome Section */
+main h1 {
+  color: var(--gold);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
-.main-image {
-  max-width: 60%;
-  border-radius: 12px;
+
+main h2 {
+  color: var(--light-gold);
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Article Cards - Dark Blue with Gold Accents */
+article {
+  background: var(--primary-dark-blue);
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+article:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+}
+
+article h3 {
+  color: var(--gold);
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+article p {
+  color: var(--cricket-white);
   margin-bottom: 1rem;
 }
-footer {
-  background: #23272f;
-  color: #fff;
-  text-align: center;
+
+/* Buttons - Gold Accents */
+button, .button, article a {
+  background: var(--gold);
+  color: var(--primary-dark-blue);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+button:hover, .button:hover, article a:hover {
+  background: var(--dark-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+/* Rankings Table - Dark Blue with Gold Headers */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: var(--primary-dark-blue);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background: var(--gold);
+  color: var(--primary-dark-blue);
   padding: 1rem;
+  text-align: left;
+  font-weight: bold;
+}
+
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--primary-blue);
+  color: var(--cricket-white);
+}
+
+tr:hover {
+  background: var(--primary-blue);
+}
+
+/* Podcast Section - Dark Blue Background */
+.podcast-item {
+  background: var(--primary-dark-blue);
+  border-left: 4px solid var(--gold);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.podcast-item h4 {
+  color: var(--gold);
+  margin: 0 0 0.5rem 0;
+}
+
+/* News Ticker - Cricket Green Accent */
+.news-ticker {
+  background: var(--cricket-green);
+  color: var(--cricket-white);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  border: 2px solid var(--light-green);
+}
+
+/* Contact Form - Dark Blue with Gold Accents */
+form {
+  background: var(--primary-dark-blue);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+  border: 2px solid var(--gold);
+}
+
+input, textarea, select {
+  background: var(--cricket-white);
+  color: var(--primary-dark-blue);
+  border: 2px solid var(--gold);
+  padding: 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+  margin: 0.5rem 0 1rem 0;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--light-gold);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+label {
+  color: var(--gold);
+  font-weight: bold;
+  display: block;
+  margin-top: 1rem;
+}
+
+/* Footer - Dark Blue Background */
+footer {
+  background: var(--primary-dark-blue);
+  color: var(--cricket-white);
+  text-align: center;
+  padding: 2rem;
   margin-top: auto;
+  border-top: 3px solid var(--gold);
+}
+
+footer h3 {
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+footer a {
+  color: var(--cricket-white);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--gold);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid var(--gold);
+}
+
+.main-image {
+  max-width: 80%;
+  margin: 2rem auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  header nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  main {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  th {
+    display: none;
+  }
+  
+  td {
+    border: none;
+    position: relative;
+    padding: 1rem 1rem 1rem 50%;
+  }
+}
+
+/* Accessibility Improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for better accessibility */
+*:focus {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Cricket-themed decorative elements */
+.cricket-accent::before {
+  content: '🏏';
+  margin-right: 0.5rem;
+}
+
+.trophy-accent::before {
+  content: '🏆';
+  margin-right: 0.5rem;
 }
