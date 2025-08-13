@@ -1,724 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Countdown + Study Plan</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    /* --- Base Styles from File 1 --- */
-    :root {
-      --bg1: #6d00ff;
-      --bg2: #00ffc6;
-      --accent: #ffcc00;
-      --text: #ffffff;
-      --card: rgba(255, 255, 255, 0.18);
-      --card-border: rgba(255, 255, 255, 0.35);
-      --muted: rgba(255,255,255,0.75);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Simple Page</title>
+    <style>
+        /* --- Import a nice font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
-      background: radial-gradient(1200px 1200px at 20% 10%, rgba(255,255,255,0.15), transparent 40%),
-                  linear-gradient(135deg, var(--bg1), var(--bg2));
-      background-attachment: fixed;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      min-height: 100vh;
-    }
-
-    header {
-      padding: 24px clamp(16px, 4vw, 48px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand { display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing: .4px; }
-    .brand .dot { width:14px; height:14px; border-radius:50%; background: conic-gradient(from 45deg, var(--accent), #ff4ecd, #00e0ff, var(--accent)); box-shadow:0 0 18px rgba(255,255,255,.55); }
-
-    .actions { display:flex; gap:10px; flex-wrap:wrap; }
-    .btn {
-      appearance: none; border:1px solid var(--card-border); background: rgba(255,255,255,.15);
-      color: white; padding: 10px 14px; border-radius: 999px; font-weight: 600; cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      backdrop-filter: blur(6px) saturate(120%);
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.25); background: rgba(255,255,255,.22); }
-
-    .container { display:grid; place-items:center; padding: clamp(16px, 4vw, 48px); }
-
-    .card {
-      width: min(1200px, 95vw);
-      backdrop-filter: blur(10px) saturate(120%);
-      -webkit-backdrop-filter: blur(10px) saturate(120%);
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: clamp(20px, 4vw, 40px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::after { content:""; position:absolute; inset: -40% -40% auto auto; width:60%; height:60%; background: radial-gradient(500px 260px at 70% 30%, rgba(255,255,255,0.35), transparent 55%); pointer-events:none; filter: blur(6px); transform: rotate(-8deg); }
-
-    .countdown-wrap { display:grid; gap: clamp(8px, 1.5vw, 16px); justify-items:center; text-align:center; }
-    .headline { font-weight:800; font-size: clamp(22px, 3.2vw, 36px); letter-spacing:.3px; }
-    .date-label { font-weight:600; opacity:.9; font-size: clamp(14px, 1.6vw, 18px); }
-    .days { font-weight:800; font-size: clamp(56px, 10vw, 120px); line-height:1.05; letter-spacing:.5px; padding: 10px 18px; border-radius: 20px; background: linear-gradient(135deg, rgba(0,0,0,0.25), rgba(255,255,255,0.08)); border: 1px solid rgba(255,255,255,0.35); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 0 18px 40px rgba(0,0,0,0.25); }
-    .subtext { font-size: clamp(14px, 1.8vw, 18px); opacity:.95; }
-
-    .bookmarks { margin-top: clamp(8px, 2.5vw, 22px); display:grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: clamp(10px, 1.6vw, 18px); }
-    .link-card { display:flex; align-items:center; gap:12px; padding: 14px 16px; border-radius:16px; background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06)); border:1px solid rgba(255,255,255,0.35); text-decoration:none; color:white; font-weight:600; transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease; will-change: transform; }
-    .link-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(0,0,0,0.22); background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.12)); }
-    .link-card img { width: 20px; height: 20px; border-radius: 4px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); flex-shrink:0; }
-    .link-card .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    footer { padding: 16px clamp(16px, 4vw, 48px) 28px; display:grid; place-items:center; opacity:.9; font-size:13px; }
-    .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.15); }
-
-    /* --- Modal Styles from File 1 --- */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; padding: 20px; z-index: 50; }
-    .modal { width:min(1000px, 96vw); background: rgba(20,22,27,.9); border:1px solid var(--card-border); border-radius:24px; backdrop-filter: blur(10px) saturate(140%); box-shadow: 0 30px 80px rgba(0,0,0,.45); }
-    .modal header { padding: 18px 22px; border-bottom: 1px solid rgba(255,255,255,.15); }
-    .modal h2 { margin:0; font-size: 20px; }
-    .modal .content { padding: 16px 20px; max-height: 70vh; overflow: auto; }
-    .grid { display:grid; grid-template-columns: 40px 1.2fr 2fr; gap: 10px; align-items:center; }
-    .grid .colhead { font-size:12px; color: var(--muted); font-weight:600; text-transform: uppercase; letter-spacing:.4px; }
-    .row { display: contents; }
-    input[type="text"], input[type="url"] { width:100%; padding: 10px 12px; border-radius: 12px; border:1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color:white; outline:none; }
-    input::placeholder { color: rgba(255,255,255,.6); }
-    .modal footer { padding: 16px 20px 20px; display:flex; gap:10px; justify-content:flex-end; border-top:1px solid rgba(255,255,255,.15); }
-
-    /* --- Styles for Merged Content --- */
-    .top-section-wrapper {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        gap: 32px;
-        flex-wrap: wrap;
-        margin-bottom: clamp(18px, 3vw, 32px);
-    }
-    .countdown-wrap {
-        flex: 1 1 400px; /* Allow flex shrinking/growing */
-    }
-
-    .plan-divider {
-      margin-top: clamp(24px, 5vw, 50px);
-      margin-bottom: clamp(16px, 3vw, 32px);
-      border: 0;
-      height: 1px;
-      background: var(--card-border);
-    }
-
-    /* --- Styles from File 2 (Checklist) --- */
-    #checklist-container {
-        width: 100%;
-    }
-    #checklist-container h1 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-        font-size: clamp(20px, 3vw, 32px);
-        font-weight: 800;
-        color: var(--text);
-    }
-    
-    #progress-container {
-        text-align: center;
-        width: 100%;
-        flex: 1 1 300px; /* Allow flex shrinking/growing */
-        max-width: 450px;
-    }
-    #progress-bar {
-        width: 100%;
-        height: 20px;
-        appearance: none;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid var(--card-border);
-    }
-    #progress-bar::-webkit-progress-bar { background-color: rgba(0,0,0,0.2); }
-    #progress-bar::-webkit-progress-value { background-color: var(--accent); transition: width 0.3s ease-in-out; }
-    #progress-bar::-moz-progress-bar { background-color: var(--accent); transition: width 0.3s ease-in-out; }
-
-    #progress-text {
-        margin-top: 0.75rem;
-        font-weight: bold;
-        font-size: 1.1rem;
-        color: var(--text);
-    }
-    
-    .week-container {
-        margin-bottom: 1.5rem;
-        border: 1px solid var(--card-border);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.05);
-        overflow: hidden;
-    }
-    .week-container h2 {
-        background-color: rgba(255, 255, 255, 0.1);
-        margin: 0;
-        padding: 1rem 1.5rem;
-        font-size: 1.4rem;
-        text-align: center;
-        border-bottom: 1px solid var(--card-border);
-        color: var(--text);
-    }
-
-    .week-content { padding: 1rem 1.5rem 1.5rem; }
-    .topic-container {
-        margin-bottom: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        padding: 1rem;
-    }
-    .topic-container:last-child { margin-bottom: 0; }
-
-    details summary {
-        font-weight: bold;
-        cursor: pointer;
-        list-style: none;
-        display: flex;
-        align-items: center;
-        font-size: 1.1rem;
-        color: var(--text);
-    }
-    details summary::-webkit-details-marker { display: none; }
-    details summary::before { content: '▶'; margin-right: 0.5rem; font-size: 0.8em; transition: transform 0.2s; }
-    details[open] > summary::before { transform: rotate(90deg); }
-
-    .topic-summary { font-size: 1.2rem; }
-    .sub-topic-summary { font-size: 1.1rem; font-weight: normal; }
-    .topic-checkbox, .sub-topic-checkbox { margin-right: 0.75rem; transform: scale(1.2); }
-
-    .sub-topics-list { list-style-type: none; padding-left: 1.5rem; margin-top: 1rem; }
-    .sub-sub-topics-list { list-style-type: none; padding-left: 1.5rem; margin-top: 0.75rem; }
-    .sub-sub-topics-list li { margin-bottom: 0.5rem; display: flex; align-items: center; }
-
-    input[type="checkbox"] { cursor: pointer; margin-right: 0.5rem; }
-    input[type="checkbox"] + label { color: var(--text); transition: color .2s; }
-    input[type="checkbox"]:checked + label { text-decoration: line-through; color: var(--muted); }
-
-    /* --- Media Queries --- */
-    @media (max-width: 768px) {
-        .top-section-wrapper {
-            flex-direction: column;
-            gap: 24px;
+        /* --- Basic Reset & Styling --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: grid; /* Center the content */
+            place-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
         }
-    }
-    @media (max-width: 520px) {
-      .grid { grid-template-columns: 32px 1fr; }
-      .grid .urlcell { grid-column: 2 / -1; }
-    }
-    @media (max-width: 420px) { .days { font-size: clamp(42px, 16vw, 88px); } }
-  </style>
+
+        /* --- The main content card --- */
+        .card {
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 90%;
+            width: 350px;
+            /* A subtle animation */
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #3f3d56;
+        }
+
+        p {
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* --- The interactive button --- */
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px); /* Slight lift */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Keyframe animation for fade-in effect --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="brand"><span class="dot"></span> Vibrant Dashboard</div>
-    <div class="actions">
-      <div class="badge" id="todayBadge">Today: —</div>
-      <button class="btn" id="editBtn" title="Edit bookmarks">Edit Links</button>
-      <button class="btn" id="resetBtn" title="Reset to defaults">Reset Links</button>
+
+    <div class="card">
+        <h1>Hello There! ✨</h1>
+        <p id="message">This is a small, elegant webpage. Click the button below to see a little magic.</p>
+        <button class="btn" id="magicButton">Click Me</button>
     </div>
-  </header>
 
-  <main class="container">
-    <section class="card" aria-live="polite">
-    
-      <div class="top-section-wrapper">
-        <div class="countdown-wrap">
-          <div class="headline">Countdown to the Day</div>
-          <div class="date-label">Target: <strong>21 November 2025</strong></div>
-          <div class="days" id="daysLeft">—</div>
-          <div class="subtext" id="subtext">days left</div>
-        </div>
-        
-        <div id="progress-container">
-          <h2 class="headline" style="margin-bottom: 1rem;">Study Plan Progress</h2>
-          <progress id="progress-bar" value="0" max="100"></progress>
-          <div id="progress-text">Progress: 0%</div>
-        </div>
-      </div>
+    <script>
+        // --- Very Small JavaScript ---
 
-      <div class="bookmarks" id="bookmarks"></div>
+        // Get the button and the paragraph elements
+        const magicButton = document.getElementById('magicButton');
+        const message = document.getElementById('message');
 
-      <hr class="plan-divider">
-      
-      <div id="checklist-container">
-        <h1>100-Day Data Analyst Study Plan</h1>
-        <div class="week-container">
-            <h2>Weeks 1-3: SQL Deep Dive</h2>
-            <div class="week-content">
-                <div class="topic-container">
-                    <details open>
-                        <summary class="topic-summary">
-                            <input type="checkbox" class="topic-checkbox" id="topic-sql"><label for="topic-sql">SQL Mastery</label>
-                        </summary>
-                        <ul class="sub-topics-list">
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-sql-fundamentals"><label for="sub-sql-fundamentals"><strong>Week 1:</strong> SQL Fundamentals</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-select"><label for="task-sql-select">Practice `SELECT`, `FROM`, `WHERE`</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-operators"><label for="task-sql-operators">Use `AND`, `OR`, `NOT`, `IN`, `BETWEEN`</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-aggregate"><label for="task-sql-aggregate">Practice `COUNT`, `SUM`, `AVG`, `GROUP BY`, `HAVING`</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-joins"><label for="task-sql-joins">Master `INNER JOIN` and `LEFT JOIN`</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-sql-advanced"><label for="sub-sql-advanced"><strong>Week 2:</strong> Advanced SQL</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-window"><label for="task-sql-window">Learn `ROW_NUMBER`, `RANK`, `LEAD`, `LAG`</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-cte"><label for="task-sql-cte">Practice writing `WITH` clauses (CTEs)</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-subquery"><label for="task-sql-subquery">Understand and write Subqueries</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-sql-cloud"><label for="sub-sql-cloud"><strong>Week 3:</strong> SQL in the Cloud</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-bigquery"><label for="task-sql-bigquery">Set up a free tier account (e.g., BigQuery)</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-sql-publicdata"><label for="task-sql-publicdata">Query public datasets using cloud SQL</label></li>
-                                </ul>
-                            </details></li>
-                        </ul>
-                    </details>
-                </div>
-            </div>
-        </div>
-        <div class="week-container">
-            <h2>Weeks 4-5: Python for Data Analysis</h2>
-            <div class="week-content">
-                <div class="topic-container">
-                    <details>
-                        <summary class="topic-summary">
-                            <input type="checkbox" class="topic-checkbox" id="topic-python"><label for="topic-python">Python & Pandas</label>
-                        </summary>
-                        <ul class="sub-topics-list">
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-python-intro"><label for="sub-python-intro"><strong>Week 4:</strong> Python & Pandas Intro</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-python-basics"><label for="task-python-basics">Learn Python data types, loops, functions</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-pandas-intro"><label for="task-pandas-intro">Create and inspect Pandas DataFrames</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-pandas-select"><label for="task-pandas-select">Select data with `.loc` and `.iloc`</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-python-wrangling"><label for="sub-python-wrangling"><strong>Week 5:</strong> Pandas for Data Wrangling</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-pandas-missing"><label for="task-pandas-missing">Handle missing values (`.dropna()`, `.fillna()`)</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-pandas-transform"><label for="task-pandas-transform">Filter, group, and merge DataFrames</label></li>
-                                </ul>
-                            </details></li>
-                        </ul>
-                    </details>
-                </div>
-            </div>
-        </div>
-        <div class="week-container">
-            <h2>Weeks 6-8: Core Analytical Skills</h2>
-            <div class="week-content">
-                 <div class="topic-container">
-                    <details>
-                        <summary class="topic-summary">
-                            <input type="checkbox" class="topic-checkbox" id="topic-core-skills"><label for="topic-core-skills">Foundational Tools & Concepts</label>
-                        </summary>
-                        <ul class="sub-topics-list">
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-excel"><label for="sub-excel"><strong>Week 6:</strong> Advanced Excel</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-excel-pivots"><label for="task-excel-pivots">Create and manipulate Pivot Tables</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-excel-powerquery"><label for="task-excel-powerquery">Use Power Query for basic ETL</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-stats"><label for="sub-stats"><strong>Week 7:</strong> Statistical Foundations</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-stats-descriptive"><label for="task-stats-descriptive">Calculate mean, median, mode, standard deviation</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-stats-hypothesis"><label for="task-stats-hypothesis">Understand p-values and statistical significance</label></li>
-                                </ul>
-                            </details></li>
-                             <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-cleaning-proj"><label for="sub-cleaning-proj"><strong>Week 8:</strong> Data Cleaning Project</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-cleaning-find"><label for="task-cleaning-find">Find a messy dataset (Kaggle, Data.gov)</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-cleaning-execute"><label for="task-cleaning-execute">Clean data using SQL or Python</label></li>
-                                </ul>
-                            </details></li>
-                        </ul>
-                    </details>
-                </div>
-            </div>
-        </div>
-        <div class="week-container">
-            <h2>Weeks 9-11: Visualization & Storytelling</h2>
-            <div class="week-content">
-                <div class="topic-container">
-                    <details>
-                        <summary class="topic-summary">
-                            <input type="checkbox" class="topic-checkbox" id="topic-viz"><label for="topic-viz">Communicating Insights</label>
-                        </summary>
-                        <ul class="sub-topics-list">
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-viz-bi"><label for="sub-viz-bi"><strong>Week 9:</strong> BI Tool Fundamentals</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-viz-connect"><label for="task-viz-connect">Connect to data sources in Tableau/Power BI</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-viz-charts"><label for="task-viz-charts">Build bar charts, line charts, and scatter plots</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-viz-dash"><label for="sub-viz-dash"><strong>Week 10:</strong> Advanced Dashboards</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-viz-interactive"><label for="task-viz-interactive">Create filters and interactive elements</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-viz-story"><label for="task-viz-story">Structure a dashboard to tell a clear story</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-viz-python"><label for="sub-viz-python"><strong>Week 11:</strong> Python Viz & ML Intro</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-viz-matplotlib"><label for="task-viz-matplotlib">Create plots with Matplotlib and Seaborn</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-viz-ml"><label for="task-viz-ml">Learn supervised vs. unsupervised learning concepts</label></li>
-                                </ul>
-                            </details></li>
-                        </ul>
-                    </details>
-                </div>
-            </div>
-        </div>
-        <div class="week-container">
-            <h2>Weeks 12-14: Finalizing Skills & Project</h2>
-            <div class="week-content">
-                <div class="topic-container">
-                    <details>
-                        <summary class="topic-summary">
-                            <input type="checkbox" class="topic-checkbox" id="topic-final"><label for="topic-final">Capstone & Career Prep</label>
-                        </summary>
-                        <ul class="sub-topics-list">
-                             <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-softskills"><label for="sub-softskills"><strong>Week 12:</strong> Soft Skills & Cloud Concepts</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-soft-cloud"><label for="task-soft-cloud">Review AWS/Azure data services concepts</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-soft-business"><label for="task-soft-business">Analyze a business case study</label></li>
-                                </ul>
-                            </details></li>
-                            <li><details><summary class="sub-topic-summary"><input type="checkbox" class="sub-topic-checkbox" id="sub-project"><label for="sub-project"><strong>Weeks 13-14:</strong> Capstone Project</label></summary>
-                                <ul class="sub-sub-topics-list">
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-proj-1"><label for="task-proj-1">Part 1: Define problem, find & clean data</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-proj-2"><label for="task-proj-2">Part 2: Perform analysis (SQL/Python)</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-proj-3"><label for="task-proj-3">Part 3: Create dashboard (Tableau/Power BI)</label></li>
-                                    <li><input type="checkbox" class="progress-checkbox" id="task-proj-4"><label for="task-proj-4">Part 4: Build presentation of findings</label></li>
-                                </ul>
-                            </details></li>
-                        </ul>
-                    </details>
-                </div>
-            </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="badge">Tip: Click “Edit Links” to customize names & URLs. Changes are saved in your browser.</div>
-  </footer>
-
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="editTitle">
-    <div class="modal">
-      <header>
-        <h2 id="editTitle">Edit Bookmarks (up to 40)</h2>
-      </header>
-      <div class="content">
-        <div class="grid" id="editorGrid">
-          <div class="colhead">#</div>
-          <div class="colhead">Name</div>
-          <div class="colhead urlcell">URL</div>
-          </div>
-      </div>
-      <footer>
-        <button class="btn" id="addRowBtn">Add Row</button>
-        <span style="flex:1"></span>
-        <button class="btn" id="cancelBtn">Cancel</button>
-        <button class="btn" id="saveBtn">Save</button>
-      </footer>
-    </div>
-  </div>
-
-  <script>
-    // ===== Countdown =====
-    const target = new Date(2025, 10, 21, 0, 0, 0); // 21 Nov 2025 00:00 local time (month 0-indexed)
-    const daysEl = document.getElementById('daysLeft');
-    const subtextEl = document.getElementById('subtext');
-    const todayBadge = document.getElementById('todayBadge');
-    const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = target - now;
-      let daysLeft = Math.ceil(diff / MS_PER_DAY);
-      if (daysLeft < 0) daysLeft = 0;
-      daysEl.textContent = daysLeft.toLocaleString();
-      subtextEl.textContent = daysLeft === 1 ? 'day left' : 'days left';
-      const formatter = new Intl.DateTimeFormat(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'});
-      todayBadge.textContent = `Today: ${formatter.format(now)}`;
-      daysEl.style.animation = (daysLeft <= 7 && daysLeft > 0) ? 'pulse 1.2s ease-in-out infinite' : 'none';
-    }
-    const pulseStyle = document.createElement('style');
-    pulseStyle.textContent = `@keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.03)} 100%{transform:scale(1)} }`;
-    document.head.appendChild(pulseStyle);
-    updateCountdown();
-    setInterval(updateCountdown, 30000);
-
-    // ===== Bookmarks (data + rendering) =====
-    const LS_KEY = 'bookmarks_v1_40';
-
-    const defaultBookmarks = [
-      { name: 'Google', url: 'https://www.google.com' },
-      { name: 'YouTube', url: 'https://www.youtube.com' },
-      { name: 'Gmail', url: 'https://mail.google.com' },
-      { name: 'Calendar', url: 'https://calendar.google.com' },
-      { name: 'Drive', url: 'https://drive.google.com' },
-      { name: 'X / Twitter', url: 'https://x.com' },
-      { name: 'LinkedIn', url: 'https://www.linkedin.com' },
-      { name: 'GitHub', url: 'https://github.com' },
-      { name: 'ChatGPT', url: 'https://chat.openai.com' },
-      { name: 'Hacker News', url: 'https://news.ycombinator.com' },
-      { name: 'Stack Overflow', url: 'https://stackoverflow.com' },
-      { name: 'Notion', url: 'https://www.notion.so' },
-      { name: 'Reddit', url: 'https://www.reddit.com' },
-      { name: 'Medium', url: 'https://medium.com' },
-      { name: 'Coursera', url: 'https://www.coursera.org' },
-      { name: 'Khan Academy', url: 'https://www.khanacademy.org' },
-      { name: 'Figma', url: 'https://www.figma.com' },
-      { name: 'Canva', url: 'https://www.canva.com' },
-      { name: 'Google Translate', url: 'https://translate.google.com' },
-      { name: 'Maps', url: 'https://maps.google.com' },
-      { name: 'Amazon', url: 'https://www.amazon.in' },
-      { name: 'Flipkart', url: 'https://www.flipkart.com' },
-      { name: 'PayPal', url: 'https://www.paypal.com' },
-      { name: 'Zoho Mail', url: 'https://mail.zoho.com' },
-      { name: 'WhatsApp Web', url: 'https://web.whatsapp.com' },
-      { name: 'Quora', url: 'https://www.quora.com' },
-      { name: 'Instagram', url: 'https://www.instagram.com' },
-      { name: 'Facebook', url: 'https://www.facebook.com' },
-      { name: 'Spotify', url: 'https://open.spotify.com' },
-      { name: 'Netlify', url: 'https://app.netlify.com' },
-      { name: 'Vercel', url: 'https://vercel.com' },
-      { name: 'Cloudflare', url: 'https://dash.cloudflare.com' },
-      { name: 'OpenAI', url: 'https://openai.com' },
-      { name: 'DeepL', url: 'https://www.deepl.com/translator' },
-      { name: 'Wikipedia', url: 'https://www.wikipedia.org' },
-      { name: 'Product Hunt', url: 'https://www.producthunt.com' },
-      { name: 'Trello', url: 'https://trello.com' },
-      { name: 'Jira', url: 'https://www.atlassian.com/software/jira' },
-      { name: 'Udemy', url: 'https://www.udemy.com' },
-      { name: 'Custom Link 40', url: '' },
-    ];
-
-    function getFaviconUrl(siteUrl) {
-      try {
-        const u = new URL(siteUrl);
-        const domain = u.hostname;
-        return `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
-      } catch (e) {
-        return '';
-      }
-    }
-
-    function loadBookmarks() {
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        if (!raw) return defaultBookmarks.slice(0, 40);
-        const data = JSON.parse(raw);
-        return Array.isArray(data) ? data.slice(0, 40) : defaultBookmarks.slice(0, 40);
-      } catch {
-        return defaultBookmarks.slice(0, 40);
-      }
-    }
-
-    function saveBookmarks(list) {
-      localStorage.setItem(LS_KEY, JSON.stringify(list.slice(0, 40)));
-    }
-
-    const bookmarksWrap = document.getElementById('bookmarks');
-
-    function renderBookmarks() {
-      const list = loadBookmarks();
-      bookmarksWrap.innerHTML = '';
-      list.forEach((b, idx) => {
-        if (!b || !b.url) return; // skip empty URLs
-        const a = document.createElement('a');
-        a.className = 'link-card';
-        a.href = b.url; a.target = '_blank'; a.rel = 'noopener';
-        a.title = b.name || b.url;
-        const img = document.createElement('img');
-        img.alt = '';
-        img.src = getFaviconUrl(b.url);
-        const span = document.createElement('span');
-        span.className = 'name';
-        span.textContent = b.name || b.url;
-        a.appendChild(img); a.appendChild(span);
-        bookmarksWrap.appendChild(a);
-      });
-    }
-
-    // ===== Editor Modal =====
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const editorGrid = document.getElementById('editorGrid');
-    const editBtn = document.getElementById('editBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const addRowBtn = document.getElementById('addRowBtn');
-
-    function openModal() {
-      populateEditor(loadBookmarks());
-      modalBackdrop.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-      modalBackdrop.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-
-    function populateEditor(list) {
-      const keep = Array.from(editorGrid.children).slice(0, 3); // keep headers
-      editorGrid.innerHTML = '';
-      keep.forEach(n => editorGrid.appendChild(n));
-      const rows = list.slice(0, 40);
-      for (let i = 0; i < 40; i++) {
-        const item = rows[i] || { name: '', url: '' };
-        const rowNum = document.createElement('div'); rowNum.textContent = String(i+1).padStart(2, '0'); rowNum.className = 'rownum';
-        const nameCell = document.createElement('div');
-        const nameInput = document.createElement('input'); nameInput.type = 'text'; nameInput.placeholder = 'Name'; nameInput.value = item.name || ''; nameInput.dataset.index = i; nameInput.dataset.field = 'name';
-        nameCell.appendChild(nameInput);
-        const urlCell = document.createElement('div'); urlCell.className = 'urlcell';
-        const urlInput = document.createElement('input'); urlInput.type = 'url'; urlInput.placeholder = 'https://example.com'; urlInput.value = item.url || ''; urlInput.dataset.index = i; urlInput.dataset.field = 'url';
-        urlCell.appendChild(urlInput);
-        editorGrid.appendChild(rowNum); editorGrid.appendChild(nameCell); editorGrid.appendChild(urlCell);
-      }
-    }
-
-    function collectEditorData() {
-      const inputs = editorGrid.querySelectorAll('input');
-      const list = Array.from({ length: 40 }, (_, i) => ({ name: '', url: '' }));
-      inputs.forEach(inp => {
-        const i = Number(inp.dataset.index);
-        const field = inp.dataset.field;
-        if (!isNaN(i) && (field === 'name' || field === 'url')) {
-          list[i][field] = inp.value.trim();
-        }
-      });
-      return list.filter(item => item.name || item.url);
-    }
-
-    editBtn.addEventListener('click', openModal);
-    cancelBtn.addEventListener('click', closeModal);
-    modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
-    saveBtn.addEventListener('click', () => {
-      const data = collectEditorData();
-      saveBookmarks(data);
-      renderBookmarks();
-      closeModal();
-    });
-    resetBtn.addEventListener('click', () => {
-      if (confirm('Reset your links to the default list?')) {
-        saveBookmarks(defaultBookmarks);
-        renderBookmarks();
-      }
-    });
-    addRowBtn.addEventListener('click', () => {
-      const current = collectEditorData();
-      if (current.length >= 40) return alert('Maximum 40 links allowed.');
-      current.push({ name: '', url: '' });
-      populateEditor(current);
-    });
-
-    // Initial render
-    renderBookmarks();
-
-    // ===== MERGED SCRIPT: Checklist and Progress Bar =====
-    document.addEventListener('DOMContentLoaded', () => {
-        const allCheckboxes = document.querySelectorAll('#checklist-container input[type="checkbox"]');
-        const progressCheckboxes = document.querySelectorAll('.progress-checkbox');
-        const subTopicCheckboxes = document.querySelectorAll('.sub-topic-checkbox');
-        const topicCheckboxes = document.querySelectorAll('.topic-checkbox');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const storageKey = 'dataAnalystProgressDetailed';
-
-        // --- Save & Load ---
-        const saveProgress = () => {
-            const progress = {};
-            allCheckboxes.forEach(checkbox => { progress[checkbox.id] = checkbox.checked; });
-            localStorage.setItem(storageKey, JSON.stringify(progress));
-        };
-
-        const loadProgress = () => {
-            const savedProgress = JSON.parse(localStorage.getItem(storageKey));
-            if (savedProgress) {
-                allCheckboxes.forEach(checkbox => {
-                    if (savedProgress[checkbox.id] !== undefined) {
-                        checkbox.checked = savedProgress[checkbox.id];
-                    }
-                });
-            }
-        };
-
-        // --- UI Update ---
-        const updateProgressBar = () => {
-            const checkedCount = Array.from(progressCheckboxes).filter(c => c.checked).length;
-            const totalCount = progressCheckboxes.length;
-            const percentage = totalCount > 0 ? (checkedCount / totalCount) * 100 : 0;
-            progressBar.value = percentage;
-            progressText.textContent = `Progress: ${Math.round(percentage)}%`;
-        };
-
-        // --- Logic for checking/unchecking ---
-        const handleStateChange = () => {
-            updateProgressBar();
-            saveProgress();
-        };
-
-        topicCheckboxes.forEach(topicCheckbox => {
-            topicCheckbox.addEventListener('change', () => {
-                const subList = topicCheckbox.closest('.topic-container').querySelector('.sub-topics-list');
-                const children = subList.querySelectorAll('input[type="checkbox"]');
-                children.forEach(child => { child.checked = topicCheckbox.checked; });
-                handleStateChange();
-            });
+        // Add a 'click' event listener to the button
+        magicButton.addEventListener('click', () => {
+            // Change the text and button content on click
+            message.textContent = "See? A little bit of JavaScript makes things interactive! 😊";
+            magicButton.textContent = "Done!";
         });
+    </script>
 
-        subTopicCheckboxes.forEach(subTopicCheckbox => {
-            subTopicCheckbox.addEventListener('change', () => {
-                const subSubList = subTopicCheckbox.closest('li').querySelector('.sub-sub-topics-list');
-                if (subSubList) {
-                  const children = subSubList.querySelectorAll('.progress-checkbox');
-                  children.forEach(child => { child.checked = subTopicCheckbox.checked; });
-                }
-                
-                const parentTopicContainer = subTopicCheckbox.closest('.topic-container');
-                const parentTopicCheckbox = parentTopicContainer.querySelector('.topic-checkbox');
-                const allSubTopics = parentTopicContainer.querySelectorAll('.sub-topic-checkbox');
-                parentTopicCheckbox.checked = Array.from(allSubTopics).every(c => c.checked);
-
-                handleStateChange();
-            });
-        });
-
-        progressCheckboxes.forEach(progressCheckbox => {
-            progressCheckbox.addEventListener('change', () => {
-                const parentSubTopicLi = progressCheckbox.closest('.sub-topics-list > li');
-                const parentSubTopicCheckbox = parentSubTopicLi.querySelector('.sub-topic-checkbox');
-                const allProgressInSub = parentSubTopicLi.querySelectorAll('.progress-checkbox');
-                parentSubTopicCheckbox.checked = Array.from(allProgressInSub).every(c => c.checked);
-
-                const parentTopicContainer = progressCheckbox.closest('.topic-container');
-                const parentTopicCheckbox = parentTopicContainer.querySelector('.topic-checkbox');
-                const allSubTopics = parentTopicContainer.querySelectorAll('.sub-topic-checkbox');
-                parentTopicCheckbox.checked = Array.from(allSubTopics).every(c => c.checked);
-
-                handleStateChange();
-            });
-        });
-
-        // --- Initial Load ---
-        loadProgress();
-        updateProgressBar();
-    });
-  </script>
 </body>
 </html>
